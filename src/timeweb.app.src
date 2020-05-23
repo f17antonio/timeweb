@@ -1,0 +1,20 @@
+{application, timeweb,
+ [{description, "Timeweb TZ"},
+  {vsn, "0.1.0"},
+  {registered, []},
+  {mod, {timeweb_app, []}},
+  {applications,
+   [kernel,
+    stdlib,
+    lager,
+    cowboy,
+    mysql,
+    poolboy,
+    jsone
+   ]},
+  {env,[]},
+  {modules, []},
+
+  {licenses, ["Apache 2.0"]},
+  {links, []}
+ ]}.

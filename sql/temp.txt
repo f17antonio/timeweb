@@ -1,0 +1,15 @@
+mysql -uroot -pMySecretPaassword  -e "set @db='timeweb';source ./sql/run.sql ;"
+mysql -uroot -ppassword  -e "set @dbname = 'timeweb';source ./sql/db_create.sql;"
+
+
+curl -H "Content-Type: application/json" \
+  -d '{"login":"test2","password":"test2", "username":"test2"}' \
+  -i http://localhost:8040/api/user/register
+
+  curl -X POST -i http://localhost:8040/api/user/register -H "Content-Type: application/json" -d '{"login":"test2","password":"test2", "username":"test2"}'
+
+  curl -X POST -i http://localhost:8040/api/user/register -H "Content-Type: application/json" -d '{"login":"test3","password":"test2", "username":"test2"}'
+
+  curl -X POST -i http://localhost:8040/api/user/signin -H "Content-Type: application/json" -d '{"login":"test3","password":"test2"}'
+
+  curl -X POST -i  http://localhost:8040/api/user/change_password -H "Content-Type: application/json" -u "test3:5ec76833-3381-43c9-847b-90c16dc43557" -d '{"old_password":"test2","new_password":"test3"}'
