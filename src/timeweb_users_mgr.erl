@@ -37,8 +37,10 @@ handle_call({signin_user, #{login := Login} = User}, _From, #state{users_session
       {reply, {ok, Token}, State#state{users_sessions = [{Login, Pid} | UsersSessions]}};
     E ->
       lager:error("Cannot Create User Sessoins for User: ~p, error: ~p~n", [User, E]),
-      {reply, {error, ?ERROR_CANNOT_CREATE_USER_SESSION_CODE}}
+      {reply, {error, ?ERROR_CANNOT_CREATE_USER_SESSION_CODE}, State}
   end;
+handle_call({signout_user, #{login := Login}}, _From, #state{users_sessions = UsersSessions} = State) ->
+  {reply, ok, State#state{users_sessions = lists:keydelete(Login, 1, UsersSessions)}};
 handle_call({is_authorized, Login, Token}, _From, #state{users_sessions = UsersSessions} = State) ->
   case lists:keyfind(Login, 1, UsersSessions) of
     {Login, WorkerPid} ->

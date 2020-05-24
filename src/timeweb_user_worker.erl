@@ -19,6 +19,7 @@
   code_change/3]).
 
 -define(SERVER, ?MODULE).
+-define(USER_SESSION_TIMEOUT, 900000). % 15 minutes
 
 -record(state, {
   user = #{} :: map(),
@@ -37,10 +38,10 @@ start_link(Args) ->
 %%%===================================================================
 
 init({User, Token}) ->
-  {ok, #state{user = User, token = Token}}.
+  {ok, #state{user = User, token = Token}, ?USER_SESSION_TIMEOUT}.
 
 handle_call({is_valid_token, Token}, _From, #state{token = Token} = State)  ->
-  {reply, true, State};
+  {reply, true, State, ?USER_SESSION_TIMEOUT};
 handle_call({is_valid_token, _}, _From, State)  ->
   {reply, false, State};
 handle_call(_Request, _From, State = #state{}) ->
@@ -49,6 +50,10 @@ handle_call(_Request, _From, State = #state{}) ->
 handle_cast(_Request, State = #state{}) ->
   {noreply, State}.
 
+handle_info(timeout, #state{user = User} = State) ->
+  ok = gen_server:call(timeweb_users_mgr, {signout_user, User}),
+  erlang:exit(timeout),
+  {noreply, State};
 handle_info(_Info, State = #state{}) ->
   {noreply, State}.
 

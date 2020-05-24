@@ -1,0 +1,28 @@
+[
+  {lager, [
+    {handlers, [
+      {lager_console_backend, [{level, info}]},
+      {lager_file_backend, [{file, "log/error.log"}, {level, error}]},
+      {lager_file_backend, [{file, "log/request.log"}, {level, debug}]},
+      {lager_file_backend, [{file, "log/console.log"}, {level, info}]}
+    ]},
+    {colored, true},
+    {error_logger_hwm, 20}
+  ]},
+  {timeweb, [
+    {mysql_pools, [
+      {db_pool, [
+        {size, 5},
+        {max_overflow, 10}
+      ], [
+        {hostname, "${TIMEWEB_MYSQL_HOST:-localhost}"},
+        {database, "${TIMEWEB_MYSQL_DATABASE:-timeweb}"},
+        {username, "${TIMEWEB_MYSQL_SUPERUSER_NAME:-root}"},
+        {password, "${TIMEWEB_MYSQL_SUPERUSER_PASSWORD:-password}"}
+      ]}
+    ]},
+    {cowboy, [
+      {port, ${TIMEWEB_COWBOY_PORT:-8040}}
+    ]}
+  ]}
+].
