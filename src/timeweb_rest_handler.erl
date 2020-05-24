@@ -72,7 +72,7 @@ handle_request(<<"GET">>, #{request_name := users_list}, _) ->
       ?API_ERROR(?ERROR_INTERNAL_DB_ERROR_CODE, ?ERROR_INTERNAL_DB_ERROR_DESCR)
   end;
 handle_request(<<"POST">>, #{request_name := register},
-    #{<<"login">> := Login, <<"password">> := Password, <<"username">> := UserName}) ->
+    #{<<"login">> := Login, <<"password">> := Password, <<"user_name">> := UserName}) ->
   case timeweb_db:register_user(Login, Password, UserName) of
     {ok, UserId} ->
       #{user_id => UserId};
