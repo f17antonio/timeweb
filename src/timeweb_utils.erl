@@ -11,7 +11,14 @@
 
 %% API
 
--export([get_token/0]).
+-export([get_token/0, json_decode/1]).
+
+json_decode(Json) ->
+  try
+      jsone:decode(Json)
+  catch
+      _:_  -> #{}
+  end .
 
 get_token() ->
   Uuid = uuid_v4(),

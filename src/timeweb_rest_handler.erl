@@ -53,7 +53,7 @@ handle_request(Req, State) ->
   {ok, RawBody, _} = cowboy_req:read_body(Req),
    Body = case RawBody of
            <<>>    -> #{};
-           RawBody -> jsone:decode(RawBody)
+           RawBody -> timeweb_utils:json_decode(RawBody)
          end,
   Response = handle_request(Method, State, Body),
   case Method of
