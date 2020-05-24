@@ -38,7 +38,7 @@ Rest API
 > Example:
 > ```sh
 > curl -X POST -i http://localhost:8040/api/user/register -H "Content-Type: application/json" \
-> -d '{"login":"user1","password":"foo", "username":"Mark"}'
+> -d '{"login":"user1","password":"foo", "user_name":"Mark"}'
 >
 > HTTP/1.1 200 OK
 > content-length: 13
